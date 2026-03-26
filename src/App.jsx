@@ -53,7 +53,7 @@ function UrgencyBadge() {
 }
 
 // ── CTAボタン共通 ─────────────────────────────────────────────────────────
-function CtaButton({ label = "無料診断（3分・営業連絡なし）", size = "lg" }) {
+function CtaButton({ label = "無料診断はこちら（3分・営業連絡なし）", size = "lg" }) {
   const base = "block w-full sm:w-auto text-center bg-cyan-400 text-slate-950 font-bold hover:bg-cyan-300 active:scale-95 transition-all shadow-lg shadow-cyan-400/20 rounded-xl";
   const sz = size === "lg" ? "px-10 py-4 text-lg" : "px-8 py-3.5 text-base";
   return (
@@ -66,9 +66,10 @@ function CtaButton({ label = "無料診断（3分・営業連絡なし）", size
 // ── CTA直下の安心文言 ─────────────────────────────────────────────────────
 function CtaTrust({ center = true }) {
   return (
-    <p className={`text-xs text-gray-500 mt-3 leading-relaxed ${center ? "text-center" : ""}`}>
-      記入3分・費用ゼロ・しつこい連絡なし
-    </p>
+    <div className={`mt-3 ${center ? "text-center" : ""}`}>
+      <p className="text-sm text-green-400 font-medium">最短即日でご提案いたします</p>
+      <p className="text-xs text-gray-500 mt-1">記入3分・費用ゼロ・営業連絡なし</p>
+    </div>
   );
 }
 
@@ -208,6 +209,78 @@ function FaqItem({ faq, delay }) {
   );
 }
 
+// ── プライバシーポリシーモーダル ──────────────────────────────────────────
+function PrivacyModal({ onClose }) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-8 relative"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-300 transition-colors"
+          aria-label="閉じる"
+        >
+          <X size={20} />
+        </button>
+        <h2 className="text-lg font-bold mb-6">プライバシーポリシー</h2>
+
+        <section className="mb-5">
+          <h3 className="text-sm font-semibold text-cyan-400 mb-2">1. 個人情報の利用目的</h3>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            お問い合わせフォームを通じていただいた氏名・メールアドレス・会社名等の個人情報は、
+            以下の目的にのみ使用します。
+          </p>
+          <ul className="text-gray-400 text-sm leading-relaxed mt-2 space-y-1 pl-4 list-disc">
+            <li>無料診断・ヒアリングのご連絡</li>
+            <li>サービスに関するご提案・お見積りのご連絡</li>
+            <li>お問い合わせへの回答</li>
+          </ul>
+        </section>
+
+        <section className="mb-5">
+          <h3 className="text-sm font-semibold text-cyan-400 mb-2">2. 第三者への提供</h3>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            取得した個人情報は、法令に基づく場合を除き、第三者へ提供・開示することはありません。
+          </p>
+        </section>
+
+        <section className="mb-5">
+          <h3 className="text-sm font-semibold text-cyan-400 mb-2">3. 個人情報の管理</h3>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            個人情報の漏洩・紛失・改ざんを防ぐため、適切な安全管理措置を講じます。
+          </p>
+        </section>
+
+        <section className="mb-5">
+          <h3 className="text-sm font-semibold text-cyan-400 mb-2">4. 個人情報の開示・訂正・削除</h3>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            ご本人からの個人情報の開示・訂正・削除のご要望には、合理的な範囲で速やかに対応いたします。
+          </p>
+        </section>
+
+        <section>
+          <h3 className="text-sm font-semibold text-cyan-400 mb-2">5. お問い合わせ先</h3>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            個人情報の取り扱いに関するお問い合わせは下記までご連絡ください。
+          </p>
+          <p className="text-sm mt-2">
+            合同会社More Agri
+            <br />
+            <a href="mailto:info@more-agri.com" className="text-cyan-400 hover:underline">
+              info@more-agri.com
+            </a>
+          </p>
+        </section>
+      </div>
+    </div>
+  );
+}
+
 // ── スティッキーCTAバー ───────────────────────────────────────────────────
 function StickyCTA() {
   const [visible, setVisible] = useState(false);
@@ -233,7 +306,7 @@ function StickyCTA() {
           rel="noopener noreferrer"
           className="flex-1 sm:flex-none text-center bg-cyan-400 text-slate-950 px-6 py-2.5 rounded-lg font-bold text-sm hover:bg-cyan-300 transition-colors"
         >
-          無料診断（3分・営業連絡なし）
+          無料診断はこちら（3分・営業連絡なし）
         </a>
         <button
           onClick={() => setDismissed(true)}
@@ -249,6 +322,7 @@ function StickyCTA() {
 
 // ── メインコンポーネント ──────────────────────────────────────────────────
 export default function App() {
+  const [showPrivacy, setShowPrivacy] = useState(false);
   return (
     <div className="min-h-screen bg-slate-950 text-white">
 
@@ -594,16 +668,44 @@ export default function App() {
         </div>
       </section>
 
-      {/* ===== FOOTER ===== */}
-      <footer className="px-6 py-8 border-t border-slate-800 text-center text-xs text-gray-600">
-        <p>© 2025 業務自動化サービス. All rights reserved.</p>
-        <p className="mt-1">
-          <a href="#" className="hover:text-gray-400 transition-colors">プライバシーポリシー</a>
+      {/* ===== 信頼一文 ===== */}
+      <div className="px-6 py-4 bg-slate-900 border-t border-slate-800 text-center">
+        <p className="text-xs text-gray-500">
+          中小企業を中心に業務効率化を支援しています
         </p>
+      </div>
+
+      {/* ===== FOOTER ===== */}
+      <footer className="bg-slate-900 border-t border-slate-800 px-6 py-10">
+        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="text-center sm:text-left">
+            <p className="font-bold text-white text-sm">合同会社More Agri</p>
+            <a
+              href="mailto:info@more-agri.com"
+              className="text-gray-400 text-xs hover:text-cyan-400 transition-colors mt-1 block"
+            >
+              info@more-agri.com
+            </a>
+          </div>
+          <div className="text-center sm:text-right">
+            <button
+              onClick={() => setShowPrivacy(true)}
+              className="text-xs text-gray-500 hover:text-gray-300 transition-colors underline underline-offset-2"
+            >
+              プライバシーポリシー
+            </button>
+            <p className="text-xs text-gray-600 mt-2">
+              © 2026 More Agri All rights reserved.
+            </p>
+          </div>
+        </div>
       </footer>
 
       {/* ===== STICKY CTA ===== */}
       <StickyCTA />
+
+      {/* ===== PRIVACY MODAL ===== */}
+      {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
 
     </div>
   );
