@@ -6,6 +6,21 @@ import {
 
 const CTA_URL = "https://docs.google.com/forms/d/e/1FAIpQLScLwTqK1y4cm6ZDcygQZ-3PLoVX1Xd6TMh-NsXx-tv9WFJ6dw/viewform";
 
+// ─ カラートークン（変更時は1箇所だけ変える） ─────────────────────────────
+const C = {
+  bg:       "bg-[#091929]",
+  bgAlt:    "bg-[#0d2035]",
+  card:     "bg-[#17304d]",
+  cardMid:  "bg-[#0d2035]/60",
+  border:   "border-white/[0.08]",
+  borderHov:"hover:border-white/[0.15]",
+  accent:   "text-teal-400",
+  accentBg: "bg-teal-400",
+  accentHov:"hover:bg-teal-300",
+  accentShadow: "shadow-teal-400/12",
+  glow:     "bg-teal-400/8",
+};
+
 // ── カスタムフック: Intersection Observer ─────────────────────────────────
 function useInView(options = {}) {
   const ref = useRef(null);
@@ -18,7 +33,7 @@ function useInView(options = {}) {
         setInView(true);
         observer.unobserve(el);
       }
-    }, { threshold: 0.12, ...options });
+    }, { threshold: 0.1, ...options });
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
@@ -42,10 +57,10 @@ function FadeIn({ children, delay = 0, className = "" }) {
 // ── 緊急性バッジ ──────────────────────────────────────────────────────────
 function UrgencyBadge() {
   return (
-    <p className="inline-flex items-center gap-2 text-xs font-semibold text-red-400 bg-red-400/10 border border-red-400/30 rounded-full px-4 py-1.5 mb-5">
+    <p className="inline-flex items-center gap-2 text-xs font-semibold text-rose-400 bg-rose-400/10 border border-rose-400/25 rounded-full px-4 py-1.5 mb-5">
       <span className="relative flex h-2 w-2">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-400" />
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-60" />
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-400" />
       </span>
       今月末受付終了 ／ 残り3社限定
     </p>
@@ -54,7 +69,7 @@ function UrgencyBadge() {
 
 // ── CTAボタン共通 ─────────────────────────────────────────────────────────
 function CtaButton({ label = "無料診断はこちら（3分・営業連絡なし）", size = "lg" }) {
-  const base = "block w-full sm:w-auto text-center bg-cyan-400 text-slate-950 font-bold hover:bg-cyan-300 active:scale-95 transition-all shadow-lg shadow-cyan-400/20 rounded-xl";
+  const base = `block w-full sm:w-auto text-center ${C.accentBg} text-slate-900 font-bold ${C.accentHov} active:scale-95 transition-all shadow-lg ${C.accentShadow} rounded-2xl`;
   const sz = size === "lg" ? "px-10 py-4 text-lg" : "px-8 py-3.5 text-base";
   return (
     <a href={CTA_URL} target="_blank" rel="noopener noreferrer" className={`${base} ${sz}`}>
@@ -67,8 +82,8 @@ function CtaButton({ label = "無料診断はこちら（3分・営業連絡な�
 function CtaTrust({ center = true }) {
   return (
     <div className={`mt-3 ${center ? "text-center" : ""}`}>
-      <p className="text-sm text-green-400 font-medium">最短即日でご提案いたします</p>
-      <p className="text-xs text-gray-500 mt-1">記入3分・費用ゼロ・営業連絡なし</p>
+      <p className="text-sm text-teal-400 font-medium">最短即日でご提案いたします</p>
+      <p className="text-xs text-slate-400 mt-1">記入3分・費用ゼロ・営業連絡なし</p>
     </div>
   );
 }
@@ -77,10 +92,10 @@ function CtaTrust({ center = true }) {
 function InlineCta({ title, sub }) {
   return (
     <FadeIn>
-      <div className="my-4 border border-cyan-400/20 bg-cyan-400/5 rounded-2xl px-6 py-8 text-center">
+      <div className={`my-4 border border-teal-400/20 bg-teal-400/5 rounded-3xl px-6 py-10 text-center`}>
         <UrgencyBadge />
-        <p className="font-bold text-lg mb-1">{title}</p>
-        <p className="text-gray-400 text-sm mb-6">{sub}</p>
+        <p className="font-bold text-lg mb-2">{title}</p>
+        <p className="text-slate-400 text-sm mb-7">{sub}</p>
         <div className="flex justify-center">
           <CtaButton />
         </div>
@@ -192,17 +207,17 @@ function FaqItem({ faq, delay }) {
     <FadeIn delay={delay}>
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full text-left bg-slate-800 border border-slate-700 hover:border-slate-600 rounded-xl px-6 py-5 transition-colors"
+        className={`w-full text-left ${C.card} border ${C.border} ${C.borderHov} rounded-2xl px-6 py-5 transition-colors`}
       >
         <div className="flex items-center justify-between gap-4">
-          <span className="font-semibold text-sm md:text-base">{faq.q}</span>
+          <span className="font-semibold text-sm md:text-base leading-snug">{faq.q}</span>
           <ChevronDown
             size={18}
-            className={`shrink-0 text-cyan-400 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+            className={`shrink-0 text-teal-400 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
           />
         </div>
         <div className={`overflow-hidden transition-all duration-300 ${open ? "max-h-48 mt-3" : "max-h-0"}`}>
-          <p className="text-gray-400 text-sm leading-relaxed">{faq.a}</p>
+          <p className="text-slate-400 text-sm leading-relaxed">{faq.a}</p>
         </div>
       </button>
     </FadeIn>
@@ -213,16 +228,16 @@ function FaqItem({ faq, delay }) {
 function PrivacyModal({ onClose }) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-8 relative"
+        className={`${C.bgAlt} border ${C.border} rounded-3xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-8 relative`}
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-300 transition-colors"
+          className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors"
           aria-label="閉じる"
         >
           <X size={20} />
@@ -230,12 +245,12 @@ function PrivacyModal({ onClose }) {
         <h2 className="text-lg font-bold mb-6">プライバシーポリシー</h2>
 
         <section className="mb-5">
-          <h3 className="text-sm font-semibold text-cyan-400 mb-2">1. 個人情報の利用目的</h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
+          <h3 className="text-sm font-semibold text-teal-400 mb-2">1. 個人情報の利用目的</h3>
+          <p className="text-slate-400 text-sm leading-relaxed">
             お問い合わせフォームを通じていただいた氏名・メールアドレス・会社名等の個人情報は、
             以下の目的にのみ使用します。
           </p>
-          <ul className="text-gray-400 text-sm leading-relaxed mt-2 space-y-1 pl-4 list-disc">
+          <ul className="text-slate-400 text-sm leading-relaxed mt-2 space-y-1 pl-4 list-disc">
             <li>無料診断・ヒアリングのご連絡</li>
             <li>サービスに関するご提案・お見積りのご連絡</li>
             <li>お問い合わせへの回答</li>
@@ -243,35 +258,34 @@ function PrivacyModal({ onClose }) {
         </section>
 
         <section className="mb-5">
-          <h3 className="text-sm font-semibold text-cyan-400 mb-2">2. 第三者への提供</h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
+          <h3 className="text-sm font-semibold text-teal-400 mb-2">2. 第三者への提供</h3>
+          <p className="text-slate-400 text-sm leading-relaxed">
             取得した個人情報は、法令に基づく場合を除き、第三者へ提供・開示することはありません。
           </p>
         </section>
 
         <section className="mb-5">
-          <h3 className="text-sm font-semibold text-cyan-400 mb-2">3. 個人情報の管理</h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
+          <h3 className="text-sm font-semibold text-teal-400 mb-2">3. 個人情報の管理</h3>
+          <p className="text-slate-400 text-sm leading-relaxed">
             個人情報の漏洩・紛失・改ざんを防ぐため、適切な安全管理措置を講じます。
           </p>
         </section>
 
         <section className="mb-5">
-          <h3 className="text-sm font-semibold text-cyan-400 mb-2">4. 個人情報の開示・訂正・削除</h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
+          <h3 className="text-sm font-semibold text-teal-400 mb-2">4. 個人情報の開示・訂正・削除</h3>
+          <p className="text-slate-400 text-sm leading-relaxed">
             ご本人からの個人情報の開示・訂正・削除のご要望には、合理的な範囲で速やかに対応いたします。
           </p>
         </section>
 
         <section>
-          <h3 className="text-sm font-semibold text-cyan-400 mb-2">5. お問い合わせ先</h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
+          <h3 className="text-sm font-semibold text-teal-400 mb-2">5. お問い合わせ先</h3>
+          <p className="text-slate-400 text-sm leading-relaxed">
             個人情報の取り扱いに関するお問い合わせは下記までご連絡ください。
           </p>
           <p className="text-sm mt-2">
-            合同会社More Agri
-            <br />
-            <a href="mailto:info@more-agri.com" className="text-cyan-400 hover:underline">
+            合同会社More Agri<br />
+            <a href="mailto:info@more-agri.com" className="text-teal-400 hover:underline">
               info@more-agri.com
             </a>
           </p>
@@ -296,21 +310,21 @@ function StickyCTA() {
 
   return (
     <div className={`fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${visible ? "translate-y-0" : "translate-y-full"}`}>
-      <div className="bg-slate-900/95 backdrop-blur border-t border-slate-700 px-4 py-3 flex items-center justify-between gap-3 max-w-screen-lg mx-auto">
-        <p className="text-sm text-gray-300 hidden sm:block shrink-0">
-          今の業務、自動化できます。<span className="text-cyan-400 font-semibold">まず診断を。</span>
+      <div className={`${C.bgAlt}/95 backdrop-blur border-t ${C.border} px-4 py-3 flex items-center justify-between gap-3 max-w-screen-lg mx-auto`}>
+        <p className="text-sm text-slate-300 hidden sm:block shrink-0">
+          お気軽にご相談ください。<span className="text-teal-400 font-semibold">まず診断を。</span>
         </p>
         <a
           href={CTA_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 sm:flex-none text-center bg-cyan-400 text-slate-950 px-6 py-2.5 rounded-lg font-bold text-sm hover:bg-cyan-300 transition-colors"
+          className={`flex-1 sm:flex-none text-center ${C.accentBg} text-slate-900 px-6 py-2.5 rounded-xl font-bold text-sm ${C.accentHov} transition-colors`}
         >
           無料診断はこちら（3分・営業連絡なし）
         </a>
         <button
           onClick={() => setDismissed(true)}
-          className="text-gray-500 hover:text-gray-300 transition-colors shrink-0 p-1"
+          className="text-slate-500 hover:text-slate-300 transition-colors shrink-0 p-1"
           aria-label="閉じる"
         >
           <X size={18} />
@@ -324,12 +338,12 @@ function StickyCTA() {
 export default function App() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className={`min-h-screen ${C.bg} text-[#dde6f0]`}>
 
       {/* ===== HERO ===== */}
       <section className="relative px-6 py-20 md:py-28 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-cyan-500/8 rounded-full blur-3xl" />
+          <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[380px] ${C.glow} rounded-full blur-3xl opacity-70`} />
         </div>
         <div className="relative max-w-3xl mx-auto text-center">
           <FadeIn>
@@ -338,7 +352,7 @@ export default function App() {
           <FadeIn delay={80}>
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
               その事務作業、<br />
-              <span className="text-cyan-400">まだ手でやっていますか？</span>
+              <span className="text-teal-400">まだ手でやっていますか？</span>
             </h1>
           </FadeIn>
           <FadeIn delay={140}>
@@ -347,21 +361,19 @@ export default function App() {
             </p>
           </FadeIn>
           <FadeIn delay={200}>
-            <p className="text-gray-400 text-sm mb-8 leading-relaxed">
+            <p className="text-slate-400 text-sm mb-8 leading-relaxed">
               人件費削減・残業ゼロ・入力ミス根絶を同時に実現。<br />
               初期費用0円・月額8万円から。既存PCのみで稼働。
             </p>
           </FadeIn>
           <FadeIn delay={280}>
-            {/* CTA① */}
             <div className="flex justify-center">
               <CtaButton />
             </div>
             <CtaTrust />
-            {/* 安心バッジ */}
-            <div className="flex flex-wrap justify-center gap-2 mt-4">
+            <div className="flex flex-wrap justify-center gap-2 mt-5">
               {["即日対応可", "既存システムそのまま利用可", "初期費用0円"].map((badge) => (
-                <span key={badge} className="text-xs text-gray-400 bg-slate-800 border border-slate-700 rounded-full px-3 py-1">
+                <span key={badge} className={`text-xs text-slate-400 ${C.card} border ${C.border} rounded-full px-3 py-1`}>
                   ✓ {badge}
                 </span>
               ))}
@@ -374,8 +386,8 @@ export default function App() {
       <section className="px-6 py-12">
         <div className="max-w-3xl mx-auto">
           <FadeIn>
-            <h2 className="text-xl md:text-2xl font-bold text-center mb-6 text-gray-300">
-              こんな会社におすすめです
+            <h2 className="text-xl md:text-2xl font-bold text-center mb-6 text-slate-300">
+              こんな会社のお役に立てます
             </h2>
           </FadeIn>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -397,10 +409,10 @@ export default function App() {
               },
             ].map(({ emoji, title, desc }, i) => (
               <FadeIn key={title} delay={i * 80}>
-                <div className="bg-slate-800/60 border border-slate-700 rounded-xl p-6 h-full">
+                <div className={`${C.card} border ${C.border} rounded-2xl p-6 h-full`}>
                   <p className="text-3xl mb-3">{emoji}</p>
                   <p className="font-bold mb-2">{title}</p>
-                  <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
+                  <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
                 </div>
               </FadeIn>
             ))}
@@ -414,9 +426,9 @@ export default function App() {
           <FadeIn>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {SOCIAL_PROOF.map(({ num, label }) => (
-                <div key={label} className="bg-slate-800/60 border border-slate-700 rounded-xl p-4 text-center">
-                  <p className="text-xl font-bold text-cyan-400">{num}</p>
-                  <p className="text-xs text-gray-400 mt-1 leading-snug">{label}</p>
+                <div key={label} className={`${C.card}/60 border ${C.border} rounded-2xl p-4 text-center`}>
+                  <p className="text-xl font-bold text-teal-400">{num}</p>
+                  <p className="text-xs text-slate-400 mt-1 leading-snug">{label}</p>
                 </div>
               ))}
             </div>
@@ -433,10 +445,10 @@ export default function App() {
             { num: "月16h→5分", label: "レポート作成時間", sub: "サービス業 12名の実績" },
           ].map(({ num, label, sub }, i) => (
             <FadeIn key={label} delay={i * 80}>
-              <div className="bg-slate-800/60 border border-slate-700 rounded-xl p-5 text-center hover:border-cyan-400/40 transition-colors">
-                <p className="text-2xl font-bold text-cyan-400">{num}</p>
+              <div className={`${C.card}/60 border ${C.border} hover:border-teal-400/30 rounded-2xl p-5 text-center transition-colors`}>
+                <p className="text-2xl font-bold text-teal-400">{num}</p>
                 <p className="text-sm font-semibold mt-1">{label}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{sub}</p>
+                <p className="text-xs text-slate-500 mt-0.5">{sub}</p>
               </div>
             </FadeIn>
           ))}
@@ -444,29 +456,29 @@ export default function App() {
       </section>
 
       {/* ===== PAIN ===== */}
-      <section className="px-6 py-16 bg-slate-900 grid-bg">
+      <section className={`px-6 py-16 ${C.bgAlt} dot-bg`}>
         <div className="max-w-3xl mx-auto">
           <FadeIn>
             <h2 className="text-2xl md:text-3xl font-bold text-center mb-3">
-              毎日の手作業、いつまで続けますか？
+              その手作業、一緒になくしていきませんか？
             </h2>
-            <p className="text-center text-gray-400 text-sm mb-10">
-              人を増やしても、根本的には解決しません。
+            <p className="text-center text-slate-400 text-sm mb-10">
+              こんなお悩みがあれば、まずお気軽にご相談ください。
             </p>
           </FadeIn>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {PAIN_POINTS.map((point, i) => (
               <FadeIn key={point} delay={i * 60}>
-                <li className="flex items-start gap-3 bg-slate-800/80 border border-slate-700 rounded-xl px-5 py-4">
-                  <XCircle size={16} className="text-red-400 mt-0.5 shrink-0" />
-                  <span className="text-gray-300 text-sm leading-relaxed">{point}</span>
+                <li className={`flex items-start gap-3 ${C.card}/80 border ${C.border} rounded-2xl px-5 py-4`}>
+                  <XCircle size={16} className="text-rose-400 mt-0.5 shrink-0" />
+                  <span className="text-slate-300 text-sm leading-relaxed">{point}</span>
                 </li>
               </FadeIn>
             ))}
           </ul>
           <FadeIn delay={400}>
-            <p className="text-center text-cyan-400 font-semibold mt-8 mb-10">
-              人を増やさなくても、仕事量は減らせます。それが業務自動化です。
+            <p className="text-center text-teal-400 font-semibold mt-8 mb-10">
+              ひとつひとつ整理して、一緒に解決していきましょう。
             </p>
           </FadeIn>
 
@@ -480,14 +492,14 @@ export default function App() {
 
       {/* ===== FLOW ===== */}
       <section className="px-6 py-16 relative">
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent" />
+        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-teal-400/15 to-transparent" />
         <div className="max-w-3xl mx-auto">
           <FadeIn>
             <h2 className="text-2xl md:text-3xl font-bold text-center mb-3">
               導入の流れ
             </h2>
-            <p className="text-center text-gray-400 text-sm mb-12">
-              動くことを確認してから契約。リスクゼロで始められます。
+            <p className="text-center text-slate-400 text-sm mb-12">
+              動くことを確認してから契約。安心して進めていただけます。
             </p>
           </FadeIn>
           <div className="flex flex-col gap-0">
@@ -497,17 +509,17 @@ export default function App() {
                 <FadeIn key={step.num} delay={i * 120}>
                   <div className="flex gap-5">
                     <div className="flex flex-col items-center shrink-0">
-                      <div className="w-12 h-12 rounded-full bg-cyan-400 text-slate-950 font-bold flex items-center justify-center shadow-lg shadow-cyan-400/20">
+                      <div className={`w-12 h-12 rounded-full ${C.accentBg} text-slate-900 font-bold flex items-center justify-center shadow-md shadow-teal-400/15`}>
                         <Icon size={20} />
                       </div>
                       {i < STEPS.length - 1 && (
-                        <div className="w-px h-12 bg-gradient-to-b from-cyan-400/40 to-slate-700 my-1" />
+                        <div className="w-px h-12 bg-gradient-to-b from-teal-400/30 to-transparent my-1" />
                       )}
                     </div>
                     <div className="pb-10">
-                      <p className="text-xs font-mono text-cyan-400 mb-0.5">{step.num}</p>
+                      <p className="text-xs font-mono text-teal-400 mb-0.5">{step.num}</p>
                       <p className="font-bold text-lg mb-1">{step.title}</p>
-                      <p className="text-gray-400 text-sm leading-relaxed">{step.desc}</p>
+                      <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
                     </div>
                   </div>
                 </FadeIn>
@@ -518,34 +530,34 @@ export default function App() {
       </section>
 
       {/* ===== CASES ===== */}
-      <section className="px-6 py-16 bg-slate-900 grid-bg">
+      <section className={`px-6 py-16 ${C.bgAlt} dot-bg`}>
         <div className="max-w-3xl mx-auto">
           <FadeIn>
             <h2 className="text-2xl md:text-3xl font-bold text-center mb-3">
               自動化で変わった、3社の現場
             </h2>
-            <p className="text-center text-gray-400 text-sm mb-10">
+            <p className="text-center text-slate-400 text-sm mb-10">
               いずれも、既存システムはそのまま。追加のIT投資なしに実現した成果です。
             </p>
           </FadeIn>
           <div className="flex flex-col gap-5">
             {CASES.map((c, i) => (
               <FadeIn key={c.industry} delay={i * 100}>
-                <div className="bg-slate-800/80 border border-slate-700 hover:border-slate-600 rounded-xl p-6 transition-colors">
-                  <p className="text-xs font-semibold text-cyan-400 tracking-wide mb-4 uppercase">
+                <div className={`${C.card}/80 border ${C.border} ${C.borderHov} rounded-2xl p-6 transition-colors`}>
+                  <p className="text-xs font-semibold text-teal-400 tracking-wide mb-4">
                     {c.industry}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-                    <div className="bg-slate-900/60 rounded-lg p-4">
-                      <p className="text-xs text-gray-500 mb-1.5 font-medium">導入前</p>
-                      <p className="text-sm text-gray-300 leading-relaxed">{c.before}</p>
+                    <div className={`${C.cardMid} rounded-xl p-4`}>
+                      <p className="text-xs text-slate-500 mb-1.5 font-medium">導入前</p>
+                      <p className="text-sm text-slate-300 leading-relaxed">{c.before}</p>
                     </div>
-                    <div className="bg-slate-900/60 rounded-lg p-4">
-                      <p className="text-xs text-gray-500 mb-1.5 font-medium">導入後</p>
-                      <p className="text-sm text-gray-300 leading-relaxed">{c.after}</p>
+                    <div className={`${C.cardMid} rounded-xl p-4`}>
+                      <p className="text-xs text-slate-500 mb-1.5 font-medium">導入後</p>
+                      <p className="text-sm text-slate-300 leading-relaxed">{c.after}</p>
                     </div>
                   </div>
-                  <p className="text-sm font-bold text-green-400 bg-green-400/10 border border-green-400/20 rounded-lg px-4 py-2 inline-block">
+                  <p className="text-sm font-bold text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 rounded-xl px-4 py-2 inline-block">
                     {c.result}
                   </p>
                 </div>
@@ -566,53 +578,53 @@ export default function App() {
       {/* ===== PRICING ===== */}
       <section className="px-6 py-16 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-cyan-500/6 rounded-full blur-3xl" />
+          <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[260px] bg-teal-400/6 rounded-full blur-3xl`} />
         </div>
         <div className="relative max-w-xl mx-auto text-center">
           <FadeIn>
             <h2 className="text-2xl md:text-3xl font-bold mb-3">シンプルな料金体系</h2>
-            <p className="text-gray-400 text-sm mb-8">
+            <p className="text-slate-400 text-sm mb-8">
               初期費用ゼロ。月額固定で、予算が読みやすい設計です。
             </p>
           </FadeIn>
           <FadeIn delay={80}>
-            <div className="bg-slate-800/80 border border-slate-700 rounded-2xl p-8">
+            <div className={`${C.card}/80 border ${C.border} rounded-3xl p-8`}>
               <div className="flex justify-center gap-8 mb-6">
                 <div>
-                  <p className="text-xs text-gray-500 mb-1 uppercase tracking-wide">初期費用</p>
-                  <p className="text-4xl font-bold">0<span className="text-xl text-gray-400">円</span></p>
+                  <p className="text-xs text-slate-500 mb-1 uppercase tracking-wide">初期費用</p>
+                  <p className="text-4xl font-bold">0<span className="text-xl text-slate-400">円</span></p>
                 </div>
-                <div className="w-px bg-slate-700" />
+                <div className="w-px bg-white/10" />
                 <div>
-                  <p className="text-xs text-gray-500 mb-1 uppercase tracking-wide">月額</p>
-                  <p className="text-4xl font-bold text-cyan-400">8<span className="text-xl text-gray-400">万円〜</span></p>
+                  <p className="text-xs text-slate-500 mb-1 uppercase tracking-wide">月額</p>
+                  <p className="text-4xl font-bold text-teal-400">8<span className="text-xl text-slate-400">万円〜</span></p>
                 </div>
               </div>
-              <ul className="text-sm text-gray-400 space-y-2.5 text-left mb-8">
+              <ul className="text-sm text-slate-400 space-y-2.5 text-left mb-8">
                 {PRICING_INCLUDES.map((item) => (
                   <li key={item} className="flex items-center gap-2.5">
-                    <Check size={15} className="text-cyan-400 shrink-0" />
+                    <Check size={15} className="text-teal-400 shrink-0" />
                     {item}
                   </li>
                 ))}
               </ul>
-              {/* CTA④ 料金セクション */}
+              {/* CTA④ */}
               <CtaButton />
               <CtaTrust />
-              <p className="text-xs text-red-400 mt-2">※ モニター価格。残り3社で受付終了</p>
+              <p className="text-xs text-rose-400 mt-2">※ モニター価格。残り3社で受付終了</p>
             </div>
           </FadeIn>
         </div>
       </section>
 
       {/* ===== FAQ ===== */}
-      <section className="px-6 py-16 bg-slate-900 grid-bg">
+      <section className={`px-6 py-16 ${C.bgAlt} dot-bg`}>
         <div className="max-w-2xl mx-auto">
           <FadeIn>
             <h2 className="text-2xl md:text-3xl font-bold text-center mb-3">
               よくある質問
             </h2>
-            <p className="text-center text-gray-400 text-sm mb-10">
+            <p className="text-center text-slate-400 text-sm mb-10">
               導入前の不安に、正直にお答えします。
             </p>
           </FadeIn>
@@ -625,30 +637,29 @@ export default function App() {
       </section>
 
       {/* ===== FINAL CTA ===== */}
-      <section className="px-6 py-20 relative overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950">
+      <section className={`px-6 py-20 relative overflow-hidden bg-gradient-to-b from-[#0d2035] to-[#091929]`}>
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-cyan-500/8 rounded-full blur-3xl" />
+          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[280px] bg-teal-400/7 rounded-full blur-3xl`} />
         </div>
         <div className="relative max-w-xl mx-auto text-center">
           <FadeIn>
             <UrgencyBadge />
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              今の業務量、人を増やさずに減らせます。
+              一緒に、業務をラクにしていきませんか。
             </h2>
-            <p className="text-gray-400 text-sm mb-8 leading-relaxed">
+            <p className="text-slate-400 text-sm mb-8 leading-relaxed">
               まず30分、現状をお聞かせください。<br />
-              自動化できる業務と、削減できるコストを無料でご提示します。
+              自動化できる業務と削減できるコストを、無料でご提示します。お気軽にどうぞ。
             </p>
           </FadeIn>
 
-          {/* よくある不安を解消するミニブロック */}
           <FadeIn delay={80}>
             <div className="grid grid-cols-3 gap-3 mb-8">
               {REASSURANCES.map(({ icon: Icon, text, sub }) => (
-                <div key={text} className="bg-slate-800/60 border border-slate-700 rounded-xl p-4">
-                  <Icon size={18} className="text-cyan-400 mx-auto mb-2" />
+                <div key={text} className={`${C.card}/60 border ${C.border} rounded-2xl p-4`}>
+                  <Icon size={18} className="text-teal-400 mx-auto mb-2" />
                   <p className="text-xs font-bold mb-1">{text}</p>
-                  <p className="text-xs text-gray-500 leading-snug">{sub}</p>
+                  <p className="text-xs text-slate-500 leading-snug">{sub}</p>
                 </div>
               ))}
             </div>
@@ -656,7 +667,7 @@ export default function App() {
 
           {/* CTA⑤ フッター前 */}
           <FadeIn delay={160}>
-            <p className="text-gray-300 text-sm font-medium mb-5">
+            <p className="text-slate-300 text-sm font-medium mb-5">
               迷っているうちに、受付枠が埋まります。<br />
               <span className="text-white">まず話を聞くだけでも構いません。</span>
             </p>
@@ -669,20 +680,20 @@ export default function App() {
       </section>
 
       {/* ===== 信頼一文 ===== */}
-      <div className="px-6 py-4 bg-slate-900 border-t border-slate-800 text-center">
-        <p className="text-xs text-gray-500">
+      <div className={`px-6 py-4 ${C.bgAlt} border-t border-white/[0.05] text-center`}>
+        <p className="text-xs text-slate-500">
           中小企業を中心に業務効率化を支援しています
         </p>
       </div>
 
       {/* ===== FOOTER ===== */}
-      <footer className="bg-slate-900 border-t border-slate-800 px-6 py-10">
+      <footer className={`${C.bgAlt} border-t border-white/[0.06] px-6 py-10`}>
         <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="text-center sm:text-left">
             <p className="font-bold text-white text-sm">合同会社More Agri</p>
             <a
               href="mailto:info@more-agri.com"
-              className="text-gray-400 text-xs hover:text-cyan-400 transition-colors mt-1 block"
+              className="text-slate-400 text-xs hover:text-teal-400 transition-colors mt-1 block"
             >
               info@more-agri.com
             </a>
@@ -690,11 +701,11 @@ export default function App() {
           <div className="text-center sm:text-right">
             <button
               onClick={() => setShowPrivacy(true)}
-              className="text-xs text-gray-500 hover:text-gray-300 transition-colors underline underline-offset-2"
+              className="text-xs text-slate-500 hover:text-slate-300 transition-colors underline underline-offset-2"
             >
               プライバシーポリシー
             </button>
-            <p className="text-xs text-gray-600 mt-2">
+            <p className="text-xs text-slate-600 mt-2">
               © 2026 More Agri All rights reserved.
             </p>
           </div>
