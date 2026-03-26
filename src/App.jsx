@@ -92,7 +92,7 @@ function CtaTrust({ center = true }) {
 function InlineCta({ title, sub }) {
   return (
     <FadeIn>
-      <div className={`my-4 border border-teal-400/20 bg-teal-400/5 rounded-3xl px-6 py-10 text-center`}>
+      <div className={`card-highlight my-4 border border-teal-400/20 bg-teal-400/5 rounded-3xl px-6 py-10 text-center`}>
         <UrgencyBadge />
         <p className="font-bold text-lg mb-2">{title}</p>
         <p className="text-slate-400 text-sm mb-7">{sub}</p>
@@ -334,6 +334,18 @@ function StickyCTA() {
   );
 }
 
+// ── 波形セクション区切り ──────────────────────────────────────────────────
+function WaveDivider({ from = "#091929", to = "#0d2035" }) {
+  return (
+    <div aria-hidden="true" style={{ lineHeight: 0, margin: 0, padding: 0 }}>
+      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "48px" }}>
+        <rect width="1440" height="48" fill={from} />
+        <path d="M0,24 Q360,48 720,24 Q1080,0 1440,24 L1440,48 L0,48 Z" fill={to} />
+      </svg>
+    </div>
+  );
+}
+
 // ── メインコンポーネント ──────────────────────────────────────────────────
 export default function App() {
   const [showPrivacy, setShowPrivacy] = useState(false);
@@ -343,7 +355,12 @@ export default function App() {
       {/* ===== HERO ===== */}
       <section className="relative px-6 py-20 md:py-28 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[380px] ${C.glow} rounded-full blur-3xl opacity-70`} />
+          {/* 大型ティールオーブ（中央上） */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[760px] h-[420px] bg-teal-400/10 rounded-full blur-3xl" />
+          {/* スカイブルー小オーブ（左上） */}
+          <div className="absolute top-8 left-[10%] w-[300px] h-[200px] bg-sky-400/8 rounded-full blur-2xl" />
+          {/* エメラルド小オーブ（右上） */}
+          <div className="absolute top-14 right-[8%] w-[260px] h-[170px] bg-emerald-400/7 rounded-full blur-2xl" />
         </div>
         <div className="relative max-w-3xl mx-auto text-center">
           <FadeIn>
@@ -409,7 +426,7 @@ export default function App() {
               },
             ].map(({ emoji, title, desc }, i) => (
               <FadeIn key={title} delay={i * 80}>
-                <div className={`${C.card} border ${C.border} rounded-2xl p-6 h-full`}>
+                <div className={`card-highlight ${C.card} border ${C.border} rounded-2xl p-6 h-full`}>
                   <p className="text-3xl mb-3">{emoji}</p>
                   <p className="font-bold mb-2">{title}</p>
                   <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
@@ -455,6 +472,8 @@ export default function App() {
         </div>
       </section>
 
+      <WaveDivider from="#091929" to="#0d2035" />
+
       {/* ===== PAIN ===== */}
       <section className={`px-6 py-16 ${C.bgAlt} dot-bg`}>
         <div className="max-w-3xl mx-auto">
@@ -489,6 +508,8 @@ export default function App() {
           />
         </div>
       </section>
+
+      <WaveDivider from="#0d2035" to="#091929" />
 
       {/* ===== FLOW ===== */}
       <section className="px-6 py-16 relative">
@@ -528,6 +549,8 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      <WaveDivider from="#091929" to="#0d2035" />
 
       {/* ===== CASES ===== */}
       <section className={`px-6 py-16 ${C.bgAlt} dot-bg`}>
@@ -575,6 +598,8 @@ export default function App() {
         </div>
       </section>
 
+      <WaveDivider from="#0d2035" to="#091929" />
+
       {/* ===== PRICING ===== */}
       <section className="px-6 py-16 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
@@ -588,7 +613,7 @@ export default function App() {
             </p>
           </FadeIn>
           <FadeIn delay={80}>
-            <div className={`${C.card}/80 border ${C.border} rounded-3xl p-8`}>
+            <div className={`card-highlight ${C.card}/80 border ${C.border} rounded-3xl p-8`}>
               <div className="flex justify-center gap-8 mb-6">
                 <div>
                   <p className="text-xs text-slate-500 mb-1 uppercase tracking-wide">初期費用</p>
@@ -616,6 +641,8 @@ export default function App() {
           </FadeIn>
         </div>
       </section>
+
+      <WaveDivider from="#091929" to="#0d2035" />
 
       {/* ===== FAQ ===== */}
       <section className={`px-6 py-16 ${C.bgAlt} dot-bg`}>
