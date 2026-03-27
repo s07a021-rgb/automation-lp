@@ -3,6 +3,11 @@ import {
   XCircle, MessageCircle, FlaskConical, Rocket,
   Check, ChevronDown, X, Shield, Clock, PhoneOff,
 } from "lucide-react";
+import heroImg from "./assets/hero.jpg";
+import caseWholesaleImg from "./assets/case-wholesale.jpg";
+import caseManufacturingImg from "./assets/case-manufacturing.jpg";
+import caseServiceImg from "./assets/case-service.jpg";
+import ctaImg from "./assets/cta.jpg";
 
 const CTA_URL = "https://docs.google.com/forms/d/e/1FAIpQLScLwTqK1y4cm6ZDcygQZ-3PLoVX1Xd6TMh-NsXx-tv9WFJ6dw/viewform";
 
@@ -149,18 +154,21 @@ const CASES = [
     before: "受注のたびにExcelへ手入力し、請求書作成まで毎日3時間かけていた",
     after: "受注メールが届いた瞬間に自動処理。担当者の作業は内容確認のみに",
     result: "作業時間 ▲85% ／ 入力ミス ゼロ ／ 残業がほぼなくなった",
+    img: caseWholesaleImg,
   },
   {
     industry: "製造業・従業員45名",
     before: "基幹システムへの日報入力を7名が毎日1時間以上かけて担当していた",
     after: "現場タブレットの入力データが自動で基幹システムへ連携",
     result: "事務スタッフ 14名→6名に ／ 人件費 ▲57% ／ ミスによる手戻りがゼロに",
+    img: caseManufacturingImg,
   },
   {
     industry: "サービス業・従業員12名",
     before: "月次集計レポートを毎月2日がかりで手作業で作成していた",
     after: "ボタンひとつで自動生成・PDF出力・関係者へのメール送付まで完了",
     result: "月16時間の作業が5分に ／ 担当者が本来の仕事に集中できるように",
+    img: caseServiceImg,
   },
 ];
 
@@ -397,12 +405,13 @@ export default function App() {
                 </div>
               </FadeIn>
             </div>
-            {/* 写真エリア（TODO: 業務している様子の写真に差し替え） */}
+            {/* 写真エリア */}
             <FadeIn delay={200} className="hidden lg:block">
-              <div className="w-full h-[340px] bg-stone-200 rounded-3xl shadow-md flex flex-col items-center justify-center text-stone-400 gap-3">
-                <span className="text-5xl">📷</span>
-                <span className="text-sm text-center px-4">業務している様子の写真<br />（ここに差し替え）</span>
-              </div>
+              <img
+                src={heroImg}
+                alt="業務している様子"
+                className="w-full h-[340px] object-cover rounded-3xl shadow-md"
+              />
             </FadeIn>
           </div>
         </div>
@@ -576,10 +585,17 @@ export default function App() {
             {CASES.map((c, i) => (
               <FadeIn key={c.industry} delay={i * 100}>
                 <div className={`${C.card} border ${C.border} hover:border-stone-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all`}>
-                  {/* TODO: 各事例の現場写真に差し替え */}
-                  <div className="w-full h-36 bg-stone-200 flex items-center justify-center text-stone-400 text-xs">
-                    📷 {c.industry}の現場写真（差し替え）
-                  </div>
+                  {c.img ? (
+                    <img
+                      src={c.img}
+                      alt={`${c.industry}の現場`}
+                      className="w-full h-44 object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-44 bg-stone-200 flex items-center justify-center text-stone-400 text-xs">
+                      📷 {c.industry}の現場写真（差し替え）
+                    </div>
+                  )}
                   <div className="p-6">
                     <p className="text-xs font-semibold text-green-700 tracking-wide mb-4">
                       {c.industry}
@@ -685,11 +701,11 @@ export default function App() {
         <div className="max-w-3xl mx-auto">
           <FadeIn>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
-              {/* TODO: 相談・打ち合わせの様子の写真に差し替え */}
-              <div className="w-full h-[260px] bg-stone-200 rounded-3xl shadow-sm flex flex-col items-center justify-center text-stone-400 gap-3 order-2 sm:order-1">
-                <span className="text-4xl">📷</span>
-                <span className="text-sm text-center px-4">相談・打ち合わせの様子<br />（ここに差し替え）</span>
-              </div>
+              <img
+                src={ctaImg}
+                alt="相談・打ち合わせの様子"
+                className="w-full h-[260px] object-cover rounded-3xl shadow-sm order-2 sm:order-1"
+              />
               <div className="order-1 sm:order-2">
                 <p className="text-2xl font-bold text-stone-800 leading-snug mb-4">
                   まず話を聞くだけで、<br />課題が整理されます。
