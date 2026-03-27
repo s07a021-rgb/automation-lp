@@ -585,17 +585,15 @@ export default function App() {
             {CASES.map((c, i) => (
               <FadeIn key={c.industry} delay={i * 100}>
                 <div className={`${C.card} border ${C.border} hover:border-stone-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all`}>
-                  {c.img ? (
-                    <img
-                      src={c.img}
-                      alt={`${c.industry}の現場`}
-                      className="w-full h-44 object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-44 bg-stone-200 flex items-center justify-center text-stone-400 text-xs">
-                      📷 {c.industry}の現場写真（差し替え）
-                    </div>
-                  )}
+                  <div className="w-full h-48 overflow-hidden bg-stone-200">
+                    {c.img && (
+                      <img
+                        src={c.img}
+                        alt={`${c.industry}の現場`}
+                        className="w-full h-full object-cover block"
+                      />
+                    )}
+                  </div>
                   <div className="p-6">
                     <p className="text-xs font-semibold text-green-700 tracking-wide mb-4">
                       {c.industry}
