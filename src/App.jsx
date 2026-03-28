@@ -196,9 +196,9 @@ const FAQS = [
 ];
 
 const PRICING_INCLUDES = [
+  "業務内容・自動化範囲に応じてご提案します",
   "ツールライセンス費用を含む（別途請求なし）",
   "月次メンテナンス・軽微な仕様変更対応を含む",
-  "専用サーバー・クラウド契約は一切不要",
   "既存のWindowsPCで今日から稼働可能",
 ];
 
@@ -638,23 +638,27 @@ export default function App() {
           <FadeIn>
             <h2 className="text-2xl md:text-3xl font-bold mb-3 text-stone-800">シンプルな料金体系</h2>
             <p className="text-stone-500 text-sm mb-8">
-              初期費用ゼロ。月額固定で、予算が読みやすい設計です。
+              初期費用ゼロ。業務内容に応じてご提案します。
             </p>
           </FadeIn>
           <FadeIn delay={80}>
             <div className={`card-highlight ${C.card} border ${C.border} rounded-3xl p-8 shadow-md`}>
-              <div className="flex justify-center gap-8 mb-6">
-                <div>
-                  <p className="text-xs text-stone-400 mb-1 uppercase tracking-wide">初期費用</p>
-                  <p className="text-4xl font-bold text-stone-800">0<span className="text-xl text-stone-400">円</span></p>
-                </div>
-                <div className="w-px bg-stone-200" />
-                <div>
-                  <p className="text-xs text-stone-400 mb-1 uppercase tracking-wide">月額</p>
-                  <p className="text-4xl font-bold text-green-700">8<span className="text-xl text-stone-400">万円〜</span></p>
-                </div>
+              {/* 料金表示 */}
+              <div className="mb-2">
+                <p className="text-xs text-stone-400 mb-1 uppercase tracking-wide">月額</p>
+                <p className="text-5xl font-bold text-green-700">
+                  50,000<span className="text-2xl text-stone-400 ml-1">円〜</span>
+                </p>
               </div>
-              <ul className="text-sm text-stone-500 space-y-2.5 text-left mb-8">
+              <p className="text-stone-500 text-sm mb-3">業務内容・自動化範囲に応じてご提案します</p>
+
+              {/* 削減効果の一文 */}
+              <div className="flex justify-center gap-3 mb-6 flex-wrap">
+                <span className="text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-3 py-1">人件費削減 ▲57%実績</span>
+                <span className="text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-3 py-1">作業時間削減 ▲85%実績</span>
+              </div>
+
+              <ul className="text-sm text-stone-500 space-y-2.5 text-left mb-6">
                 {PRICING_INCLUDES.map((item) => (
                   <li key={item} className="flex items-center gap-2.5">
                     <Check size={15} className="text-green-600 shrink-0" />
@@ -662,10 +666,15 @@ export default function App() {
                   </li>
                 ))}
               </ul>
+
+              {/* 無料診断への誘導 */}
+              <p className="text-sm font-semibold text-stone-700 bg-stone-100 rounded-2xl px-4 py-3 mb-6">
+                まずは無料診断で改善効果をお伝えします
+              </p>
+
               {/* CTA④ */}
               <CtaButton />
               <CtaTrust />
-              <p className="text-xs text-rose-500 mt-2">※ モニター価格。残り3社で受付終了</p>
             </div>
           </FadeIn>
         </div>
